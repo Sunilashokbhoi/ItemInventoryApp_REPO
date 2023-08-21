@@ -1,6 +1,9 @@
 package com.igc.iia.iteminventoryapp.controller;
 
 import com.igc.iia.iteminventoryapp.entity.Item;
+import com.igc.iia.iteminventoryapp.service.IItemService;
+import com.igc.iia.iteminventoryapp.service.ItemService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -9,32 +12,28 @@ import java.util.ArrayList;
 @RequestMapping("/item/api")
 public class ItemIAController {
 
-    ArrayList<Item> itemArrayList = new ArrayList<>();
-    @GetMapping("/itemname")
+  // ItemService itemService = new ItemService();
+    @Autowired
+    IItemService itemService ;
+
+    @GetMapping("/item")
     public String name(){
-        return "item name ";
+        return "Wellcome item api ";
     }
 
     @PostMapping("/added")
     public Item added(@RequestBody Item item){
-        itemArrayList.add(item);
-        return item;
+        return itemService.addItem(item);
+
     }
 
     @GetMapping("/getitem")
-    public Item getite(){
-        Item item = new Item();
-        item.setId(1);
-        item.setName("pen");
-        item.setDescription("Ball pen");
-        item.setPrice(5);
-        item.setQuantity(10);
-        item.setStatus("Availeble");
-        return item;
+    public Item getItem(){
+    return itemService.getItem();
     }
     @GetMapping("/getallitems")
     public ArrayList<Item> getallitems(){
-        return itemArrayList;
+        return itemService.getallItems();
     }
 }
 
