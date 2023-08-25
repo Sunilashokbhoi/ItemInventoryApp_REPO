@@ -32,9 +32,25 @@ public class ItemIAController {
     public Item getItem(){
     return itemService.getItem();
     }
+
     @GetMapping("/getallitems")
     public List<Item> getallitems(){
         return itemService.getallItems();
+    }
+
+    @GetMapping("/getitembyid/{id}")
+    public Item getItemByID(@PathVariable("id") int id){
+      return itemService.getItemByID(id);
+    }
+
+    @DeleteMapping("/deleteitembyid/{id}")
+    public String deleteitembyid(@PathVariable("id")int id){
+      return itemService.deleteitembyid(id);
+    }
+
+    @PutMapping("/updateitembyid/{id}")
+    public Item updateitembyid(@PathVariable("id")int id,@RequestBody Item item){
+      return itemService.updeteitembyid(id,item);
     }
 }
 

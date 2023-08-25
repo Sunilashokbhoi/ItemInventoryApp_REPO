@@ -32,4 +32,27 @@ public class ItemService implements IItemService{
         item.setStatus("Availeble");
         return item;
     }
+
+    @Override
+    public Item getItemByID(int id) {
+        return iItemRepo.findById(id).get();
+    }
+
+    @Override
+    public String deleteitembyid(int id) {
+        Item item =getItemByID(id);
+        iItemRepo.delete(item);
+        return "Item Deleted Successfully...";
+    }
+
+    @Override
+    public Item updeteitembyid(int id, Item item) {
+        Item olditem = getItemByID(id);
+        olditem.setName(item.getName());
+        olditem.setDescription(item.getDescription());
+        olditem.setPrice(item.getPrice());
+        olditem.setStatus(item.getStatus());
+        olditem.setQuantity(item.getQuantity());
+        return iItemRepo.save(olditem);
+    }
 }

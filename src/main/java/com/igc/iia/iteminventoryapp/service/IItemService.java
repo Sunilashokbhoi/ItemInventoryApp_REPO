@@ -12,6 +12,13 @@ public interface IItemService {
     public List<Item> getallItems();
 
     public Item getItem();
+
+    public Item getItemByID(int id);
+
+    public String deleteitembyid(int id);
+
+    public Item updeteitembyid(int id,Item item);
+
 }
 
 
