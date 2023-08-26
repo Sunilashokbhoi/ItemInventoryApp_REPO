@@ -1,10 +1,12 @@
 package com.igc.iia.iteminventoryapp.service;
 
 import com.igc.iia.iteminventoryapp.entity.Item;
+import com.igc.iia.iteminventoryapp.exception.ItemNotFoundException;
 import com.igc.iia.iteminventoryapp.repo.IItemRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ItemService implements IItemService{
@@ -20,34 +22,25 @@ public class ItemService implements IItemService{
     public List<Item> getallItems() {
         return iItemRepo.findAll();
     }
-
-       @Override
-       public Item getItem(){
-        Item item = new Item();
-        item.setId(1);
-        item.setName("pen");
-        item.setDescription("Ball pen");
-        item.setPrice(5);
-        item.setQuantity(10);
-        item.setStatus("Availeble");
-        return item;
-    }
-
     @Override
-    public Item getItemByID(int id) {
-        return iItemRepo.findById(id).get();
+    public Optional<Item> getItemByID(int id) {
+        Optional<Item> item = iItemRepo.findById(id);
+        if (item.isPresent()) {
+            return item;
+        }else {
+            throw new ItemNotFoundException("Item With Given Id Not Found Database");
+        }
     }
-
     @Override
     public String deleteitembyid(int id) {
-        Item item =getItemByID(id);
+        Item item =iItemRepo.findById(id).get();
         iItemRepo.delete(item);
         return "Item Deleted Successfully...";
     }
 
     @Override
     public Item updeteitembyid(int id, Item item) {
-        Item olditem = getItemByID(id);
+        Item olditem = iItemRepo.findById(id).get();
         olditem.setName(item.getName());
         olditem.setDescription(item.getDescription());
         olditem.setPrice(item.getPrice());

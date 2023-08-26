@@ -1,9 +1,13 @@
 package com.igc.iia.iteminventoryapp.controller;
 
 import com.igc.iia.iteminventoryapp.entity.Item;
+import com.igc.iia.iteminventoryapp.responses.Responses;
 import com.igc.iia.iteminventoryapp.service.IItemService;
 import com.igc.iia.iteminventoryapp.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -23,34 +27,28 @@ public class ItemIAController {
     }
 
     @PostMapping("/added")
-    public Item added(@RequestBody Item item){
-        return itemService.addItem(item);
-
-    }
-
-    @GetMapping("/getitem")
-    public Item getItem(){
-    return itemService.getItem();
+    public ResponseEntity<?> added(@RequestBody Item item){
+        return new ResponseEntity<>(new Responses("Item Added",HttpStatus.CREATED,itemService.addItem(item)),HttpStatus.CREATED);
     }
 
     @GetMapping("/getallitems")
-    public List<Item> getallitems(){
-        return itemService.getallItems();
+    public ResponseEntity<?> getallitems(){
+        return new ResponseEntity<>(new Responses("Item Founded",HttpStatus.FOUND,itemService.getallItems()),HttpStatus.FOUND);
     }
 
     @GetMapping("/getitembyid/{id}")
-    public Item getItemByID(@PathVariable("id") int id){
-      return itemService.getItemByID(id);
+    public ResponseEntity<?> getItemByID(@PathVariable("id") int id){
+      return new ResponseEntity<>( new Responses("Get Item By ID",HttpStatus.FOUND,itemService.getItemByID(id)), HttpStatus.FOUND);
     }
 
     @DeleteMapping("/deleteitembyid/{id}")
-    public String deleteitembyid(@PathVariable("id")int id){
-      return itemService.deleteitembyid(id);
+    public ResponseEntity<?> deleteitembyid(@PathVariable("id")int id){
+      return new ResponseEntity<>(new Responses("Deleted Item By Id",null,itemService.deleteitembyid(id)),HttpStatus.ACCEPTED);
     }
 
     @PutMapping("/updateitembyid/{id}")
-    public Item updateitembyid(@PathVariable("id")int id,@RequestBody Item item){
-      return itemService.updeteitembyid(id,item);
+    public ResponseEntity<?> updateitembyid(@PathVariable("id")int id,@RequestBody Item item){
+      return new ResponseEntity<>(new Responses("Updated Item By ID",HttpStatus.PROCESSING,itemService.updeteitembyid(id,item)),HttpStatus.PROCESSING);
     }
 }
 
