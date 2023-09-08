@@ -3,15 +3,13 @@ package com.igc.iia.iteminventoryapp.controller;
 import com.igc.iia.iteminventoryapp.entity.Item;
 import com.igc.iia.iteminventoryapp.responses.Responses;
 import com.igc.iia.iteminventoryapp.service.IItemService;
-import com.igc.iia.iteminventoryapp.service.ItemService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 @RestController
 @RequestMapping("/item/api")
@@ -27,7 +25,7 @@ public class ItemIAController {
     }
 
     @PostMapping("/added")
-    public ResponseEntity<?> added(@RequestBody Item item){
+    public ResponseEntity<?> added(@RequestBody @Valid Item item){
         return new ResponseEntity<>(new Responses("Item Added",HttpStatus.CREATED,itemService.addItem(item)),HttpStatus.CREATED);
     }
 
